@@ -1,0 +1,32 @@
+.tag {
+  display: inline-block;
+  background: #cccccc;
+  border-radius: 50px;
+  font-size: 10px;
+  margin: 10px 10px 0px 10px;
+  width: fit-content;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tag-nature {
+    background-color: #2ecc71;
+}
+
+.tag-travel{
+    background-color: #cd5b9f ;
+}
+
+.tag-technology{
+    background-color: #F97F51 ;
+}
+
+.tag-finance{
+    background-color: #f6b93b ;
+}
+
+.tag-health{
+    background-color: #eb2f06;
+}
