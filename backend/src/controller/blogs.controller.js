@@ -76,7 +76,7 @@ const findAllBlogs = asyncHandler ( async (req,res) => {
 const findAllBlogsByCategory = asyncHandler ( async (req,res) => {
 
   const {category} = req.params;
-  console.log(category);
+  
 
   const blogs = await Blog.find({ category : category}).sort({createdAt : -1})
 
