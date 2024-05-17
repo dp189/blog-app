@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className="mt-auto " >
       <div className="bg-zinc-900 text-white py-4 px-4 flex justify-between items-center border-t dark:border-t-[#f4f2f292] dark:shadow-[0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)] ">
       <div className="flex items-center">
-      <Link to="/" className="flex items-center px-5 ">
+      <Link to="/" className="flex items-center px-2 md:px-5 ">
                <span className="font-extrabold text-2xl">
                  BLO
                  <span className="font-extrabold text-2xl text-[#4E7771]">

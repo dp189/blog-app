@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoCloseCircleSharp } from "react-icons/io5";
-import { BsMoon, BsSun } from "react-icons/bs";
-import { LuSun } from "react-icons/lu";
+import { LuSun, LuMoonStar } from "react-icons/lu";
 
 const Header = () => {
   const getInitialTheme = () => {
@@ -52,7 +51,7 @@ const Header = () => {
   return (
     <div className="border-b border-[#777070bf] dark:border-gray-700 bg-[#EAEADE] dark:shadow-[0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)]">
       <div className="flex justify-between items-center px-4 py-4 dark:bg-zinc-900 bg-[#EAEADE]">
-        <div className="px-5">
+        <div className="px-2 md:px-5">
           <Link to={"/"} className="flex items-center ">
             <span className="font-extrabold text-2xl dark:text-white">
               BLO<span className="text-[#4E7771]">GG</span>ER
@@ -63,9 +62,9 @@ const Header = () => {
           <div className="hover:bg-[#70707471] mt-2 rounded-md h-8 w-8 flex justify-center items-center">
             <button onClick={toggleDarkMode} className="px-1">
               {theme === "dark" ? (
-                <LuSun className="w-6 h-5 text-yellow-500" />
+                <LuSun className="w-6 h-6 text-yellow-500" />
               ) : (
-                <BsMoon className="w-6 h-5 text-gray-800 dark:text-gray-200" />
+                <LuMoonStar className="w-6 h-6 text-gray-800 dark:text-gray-200" />
               )}
             </button>
           </div>
@@ -104,7 +103,7 @@ const Header = () => {
             <Link
               to={`/?category=${menu.text}`}
               onClick={toggleSidebar}
-              className="font-[600] text-[#45454d] hover:text-black dark:text-gray-300 dark:hover:text-white"
+              className="font-[600] text-[#626275b0] hover:text-black dark:text-gray-300 dark:hover:text-white"
             >
               {menu.text}
             </Link>
