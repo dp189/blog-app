@@ -60,7 +60,9 @@ const findAllBlogs = asyncHandler ( async (req,res) => {
   
   
 
-  const blogs = await Blog.find().sort({createdAt : -1})
+  const blogs = await Blog.find().sort({createdAt : -1}).select(
+    "-description")
+  
 
   if(!blogs){
     throw new ApiError(400, "No blogs found")

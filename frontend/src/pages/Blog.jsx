@@ -31,12 +31,12 @@ const Blog = () => {
   }, [])
     
   return (
-    <div className="flex justify-center items-center text-justify">
-      {blog && <div className="flex flex-col w-[60%] overflow-hidden">
+    <div className="flex  justify-center items-center text-justify ">
+      {blog && <div className="flex  flex-col w-[60%] overflow-hidden">
         <h1 className=" mt-1 text-4xl font-extrabold">
           {blog.title}
         </h1>
-        <div className="flex mt-4 mb-4">
+        <div className="flex mt-4 mb-4 dark:text-[#eae4e4]">
           <small>{blog.createdAt}</small>
         </div>
 

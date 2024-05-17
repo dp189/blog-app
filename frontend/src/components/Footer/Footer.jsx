@@ -1,22 +1,22 @@
 import React from 'react';
-import { AiFillTwitterCircle, AiFillInstagram, AiFillLinkedin } from 'react-icons/ai';
+import { AiFillGithub , AiFillInstagram, AiFillLinkedin } from 'react-icons/ai';
 import { Link, NavLink } from "react-router-dom";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: <AiFillTwitterCircle />, url: 'https://twitter.com/your_handle' },
-    { icon: <AiFillInstagram />, url: 'https://www.instagram.com/your_handle' },
-    { icon: <AiFillLinkedin />, url: 'https://www.linkedin.com/company/your_company' },
+    { icon: <AiFillGithub />, url: 'https://github.com/dp189/blog-app' },
+    { icon: <AiFillInstagram />, url: 'https://www.instagram.com/' },
+    { icon: <AiFillLinkedin />, url: 'https://www.linkedin.com/in/debabrata-pal-718614193' }, //Add linkedin profile link
   ];
 
   return (
-    <footer className="mt-auto" >
-      <div className="bg-[#5e7897] text-white py-4 px-4 flex justify-between items-center">
+    <footer className="mt-auto " >
+      <div className="bg-zinc-900 text-white py-4 px-4 flex justify-between items-center border-t dark:border-t-[#f4f2f292] dark:shadow-[0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)] ">
       <div className="flex items-center">
       <Link to="/" className="flex items-center px-5 ">
                <span className="font-extrabold text-2xl">
                  BLO
-                 <span className="font-extrabold text-2xl text-[#274C77]">
+                 <span className="font-extrabold text-2xl text-[#4E7771]">
                  GG
                  </span>
                  ER
