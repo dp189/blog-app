@@ -18,7 +18,7 @@ const uploadFile = async (localFilePath) => {
         fs.unlinkSync(localFilePath);
         return response;
     } catch (error) {
-        fs.unlinkSync(localFilePath); //remove the file from the locally saved temporary file.
+         //remove the file from the locally saved temporary file.
         console.log(error);
         return null;
     }
