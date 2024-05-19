@@ -9,7 +9,7 @@ const Layout = () => {
            <Header/>
 
         {/* </div> */}
-        <div className="flex mx-auto px-8 md:px-5 bg-[#EAEADE] dark:bg-zinc-900 dark:text-white">
+        <div className="flex mx-auto px-5 md:px-5 bg-[#EAEADE] dark:bg-zinc-900 dark:text-white">
           <div className="mt-5 mb-5 min-h-[500px] w-full">
             <Outlet/>
           </div>
