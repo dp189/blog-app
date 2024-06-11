@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from 'express';
 import cors from 'cors';
 import connectDB from "./db/index.js";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config({
@@ -28,11 +29,16 @@ app.use(express.urlencoded({
     extended:true
 }))
 
+
+app.use(cookieParser());
+
 //Routes import
-import blogRoutes from './routes/blogs.routes.js'
+import blogRoutes from './routes/blogs.routes.js';
+import userRoutes from './routes/user.routes.js';
+
 
 app.use("/api/v1/blogs", blogRoutes); //route configuration
-
+app.use("/api/v1/users", userRoutes);
 
 //db connection
 connectDB().then(() => {

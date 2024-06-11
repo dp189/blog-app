@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { LuSun, LuMoonStar } from "react-icons/lu";
 
+import { useAuthContext } from "../../hooks/useAuthContext"
+
 const Header = () => {
   const getInitialTheme = () => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -23,6 +25,8 @@ const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
 
+  const {user} = useAuthContext();
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -40,6 +44,11 @@ const Header = () => {
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
   };
+
+
+  const handleLogOut = () =>{
+    console.log("logged out");
+  }
 
   const menus = [
     { text: "Nature", path: "/" },
@@ -109,11 +118,25 @@ const Header = () => {
             </Link>
           </div>
         ))}
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col">
+          {!user?<Link
+            to={"/login"}
+            onClick={toggleSidebar}
+            className=" bg-[#4E7771] text-white px-2 py-1 rounded hover:bg-[#1f7064] inline-block w-[30%]"
+          >
+            Login
+          </Link>:<Link
+            onClick={handleLogOut}
+            className=" bg-[#4E7771] text-white px-2 py-1 rounded hover:bg-[#1f7064] inline-block w-[30%]"
+          >
+            Logout
+          </Link> }
+        
+
           <Link
             to={"/create"}
             onClick={toggleSidebar}
-            className="mt-5 bg-[#4E7771] text-white px-2 py-1 rounded hover:bg-[#1f7064]"
+            className="mt-5 bg-[#4E7771] text-white px-2 py-1 rounded hover:bg-[#1f7064] inline-block w-[40%]"
           >
             New Post
           </Link>

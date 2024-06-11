@@ -6,5 +6,17 @@ import BlogCard from "./components/BlogCard/BlogCard";
 import Blog from "./pages/Blog";
 import CreateBlog from "./pages/CreateBlog";
 
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 
-export { Header, Footer, Home, Layout, BlogCard, Blog, CreateBlog};
+export {
+  Header,
+  Footer,
+  Home,
+  Layout,
+  BlogCard,
+  Blog,
+  CreateBlog,
+  Login,
+  SignUp,
+};

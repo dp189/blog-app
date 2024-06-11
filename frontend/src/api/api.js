@@ -1,12 +1,10 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL
-
+const API_URL = import.meta.env.VITE_API_URL_BLOG;
+const API_URL_USER = import.meta.env.VITE_API_URL_BLOG;
 
 
  const getBlogs = () => {
-
-    
     return  axios.get(API_URL+'/blogs')
     .then(function (response) {
       
@@ -41,7 +39,7 @@ const getBlogsByCategory = (category) => {
 }
 
 const getBlogById = (id) => {
-  console.log(API_URL+'/blogs/' + id);
+  
   return axios.get(API_URL + '/blogs/' + id) 
     .then(function(response){
       return response.data
@@ -50,4 +48,39 @@ const getBlogById = (id) => {
     })
 }
 
-export { getBlogs, getBlogsByCategory, createBlogs, getBlogById};
+
+const addFavouriteBlogsToUser = (blogId, userData) => {
+
+  console.log(blogId, userData);
+  return axios.post(API_URL_USER + '/users/favourites', {
+    "blogId": blogId,
+  },{headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${userData}`
+  }}).then(function(response){
+    return response.data;
+  }).catch(function(err){
+    console.log(err);
+  })
+
+}
+
+
+const getFavouriteBlogsByUser = (userData) => {
+
+  
+  return axios.get(API_URL_USER + '/users/favourites',{
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${userData}`
+    }
+  }).then(function(response){
+
+    
+    return response.data;
+  }).catch(function(err){
+    console.log(err);
+})
+}
+
+export { getBlogs, getBlogsByCategory, createBlogs, getBlogById, addFavouriteBlogsToUser, getFavouriteBlogsByUser }

@@ -7,7 +7,7 @@ import {
   deleteBlogById,
   updateBlogById
 } from "../controller/blogs.controller.js";
-import { upload } from "../middleware/blog.middlewares.js";
+import { upload } from "../middleware/blog.middleware.js";
 
 const router = Router();
 

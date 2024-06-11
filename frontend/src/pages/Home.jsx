@@ -7,18 +7,10 @@ import { useSearchParams } from 'react-router-dom'
 const Home = () => {
 
   let [searchParams, setSearchParams] = useSearchParams();
-  // console.log(searchParams)
+  
   const [blogs, setBlogs] = useState([]);
 
-  // useEffect(() => {
-  //   async function fetchData(){
-  //     const allBlogs = await getBlogs();
-  //     console.log(allBlogs);
-  //     setBlogs(allBlogs.data)
-  //   }
-
-  //   fetchData();
-  // }, [])
+  
 
   useEffect(() => {
     async function fetchData(){
@@ -26,6 +18,7 @@ const Home = () => {
 
       if(searchParams.get('category') == null) {
         const allBlogs = await getBlogs();
+        
         setBlogs(allBlogs.data);
       }
       else{      
