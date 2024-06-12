@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { addFavouriteBlogsToUser, getBlogById } from "../api/api";
+import { getBlogById } from "../api/api";
 import parse from "html-react-parser";
 import { BsBookmarkPlus } from "react-icons/bs";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { useAuthContext } from "../hooks/useAuthContext";
+
+import {useFavouriteBlogContext} from "../hooks/useFavouriteBlogContext"; 
 
 const Blog = () => {
   let { id } = useParams();
@@ -13,6 +15,8 @@ const Blog = () => {
   const [isFavourited, setIsFavourited] = useState(false);
 
   const {user} = useAuthContext();
+
+  const {favourites,addFavourite, removeFavourite} = useFavouriteBlogContext();
 
 
   
@@ -28,7 +32,7 @@ const Blog = () => {
           day: "numeric",
         });
         const newData = { ...blog.data, createdAt: formattedDate };
-        // console.log(newData);
+        
         setBlog(newData);
       }
     }
@@ -36,16 +40,39 @@ const Blog = () => {
     fetchData();
   }, [id]);
 
+
+  useEffect(() => {
+    function checkFavourited(){
+      if(user && favourites.some(fav => fav._id === id)){
+        console.log("Called from useEffect. Is Favourited.");
+        setIsFavourited(true);
+      }
+      else{
+        setIsFavourited(false);
+      }
+
+    }
+
+    checkFavourited();
+
+  },[])
+
+
+
   const handleFavouriteBlog = async () => {
-    setIsFavourited(prev =>!prev); 
-    const favBlog = await addFavouriteBlogsToUser(id, user.user.accessToken);
-    console.log(favBlog);
+    try {
+      setIsFavourited(prev =>!prev); 
+      const favBlog = await addFavourite(id, user.user.accessToken);
+      console.log(favBlog);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
 
   const handleRemoveFavouriteBlog = () => {
     setIsFavourited(prev =>!prev);
-    console.log(isFavourited);
+    removeFavourite(id);
   }
 
 

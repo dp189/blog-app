@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, loginUser,logoutUser, refreshAccessToken, addFavouriteBlog, findFavourites } from "../controller/users.controller.js";
+import { registerUser, loginUser,logoutUser, refreshAccessToken, addFavouriteBlog, findFavourites, removeFavouriteBlog } from "../controller/users.controller.js";
 import { authenticateJWT } from "../middleware/jwtAuthenticate.middleware.js";
 
 const router = Router();
@@ -17,5 +17,7 @@ router.route('/refreshAccessToken').post(refreshAccessToken);
 
 router.route('/favourites').post(authenticateJWT,addFavouriteBlog);
 router.route('/favourites').get(authenticateJWT,findFavourites);
+
+router.route('/removeFavourites').post(authenticateJWT,removeFavouriteBlog);
 
 export default router;

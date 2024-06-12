@@ -32,11 +32,16 @@ const Home = () => {
   
 
 
+  if(blogs.length === 0) {
+    return <div className="text-black dark:text-white text-center text-3xl font-extrabold my-[50%]">No blogs found!!</div>
+  }
+
   return (
     <div>
       
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 dark:bg-zinc-900">
-        {blogs.map((data) => {
+
+        { blogs.map((data) => {
           return (<BlogCard data={data} key={data._id}/>)
 
         })}

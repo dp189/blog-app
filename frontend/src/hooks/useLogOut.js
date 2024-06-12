@@ -16,9 +16,8 @@ export const useLogOut =  () => {
 
 
     const logout = async (userData) => {
-        //console.log(userData);
 
-        console.log(userData);
+        
         setIsLoading(true);
         const user = await axios
         .post(`${API_URL}/logout`,{}, {

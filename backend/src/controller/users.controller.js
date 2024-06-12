@@ -212,14 +212,14 @@ const addFavouriteBlog = asyncHandler(async (req, res) => {
   const { blogId } = req.body;
   const userId = req.user._id;
   
-  const blog = await Blog.findById(blogId).select("-description -category");
+  const blog = await Blog.findById(blogId).select("-description");
   if (!blog) {
     throw new ApiError(404, "Blog not found");
   }
 
   const user = await User.findById(userId);
 
-  if (!user.favourites.includes()) {
+  if (!user.favourites.includes(blogId)) {
     user.favourites.push(new mongoose.Types.ObjectId(blogId));
     await user.save({
       validateBeforeSave: false,
@@ -227,7 +227,7 @@ const addFavouriteBlog = asyncHandler(async (req, res) => {
   }
   return res.status(200).json({
     status: 200,
-    data: user.favourites,
+    data: blog,
     message: "Blog added to favourites.",
   });
 });
@@ -286,6 +286,33 @@ const findFavourites = asyncHandler(async (req, res) => {
     });
 });
 
+const removeFavouriteBlog = asyncHandler(async (req, res) =>{
+  const { blogId } = req.body;
+  const userId = req.user._id;
+
+  const blog = await Blog.findById(blogId).select("-description");
+  if (!blog) {
+    throw new ApiError(404, "Blog not found");
+  }
+
+  const user = await User.findById(userId);
+
+  if(user.favourites.includes(blogId)){
+    user.favourites = user.favourites.filter(favourite => favourite!= blogId)
+    await user.save({
+      validateBeforeSave: false,
+    });
+  }
+
+  return res.status(200).json({
+    status: 200,
+    message: "Blog removed from favourites.",
+  });
+})
+
+
+
+
 export {
   registerUser,
   loginUser,
@@ -293,4 +320,6 @@ export {
   refreshAccessToken,
   addFavouriteBlog,
   findFavourites,
+  removeFavouriteBlog,
+  
 };

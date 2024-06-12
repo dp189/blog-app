@@ -1,38 +1,22 @@
 import React from 'react'
 import {BlogCard} from '../index.jsx'
-import { useEffect, useState } from 'react'
-import { getFavouriteBlogsByUser } from '../api/api.js'
-
-import { useAuthContext } from '../hooks/useAuthContext.js'
+import { useFavouriteBlogContext } from '../hooks/useFavouriteBlogContext.js'
 
 const FavouriteBlog = () => {
-
-
   
-  const [blogs, setBlogs] = useState([]);
-  const {user} = useAuthContext();
-  
+  const {favourites} = useFavouriteBlogContext();
 
-  useEffect(() => {
-    async function fetchData(){
-    
-      const favBlogs = await getFavouriteBlogsByUser(user.user.accessToken);
-      
-      setBlogs(favBlogs.data);
-      
-    }
 
-    fetchData();
-  },[])
-  
-
+  if(favourites.length === 0) {
+    return <div className="text-black dark:text-white text-center text-3xl font-extrabold my-[50%]">No blogs found!!</div>
+  }
 
   return (
     <>
       
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 dark:bg-zinc-900">
-        {blogs.map((data) => {
-          return (<BlogCard data={data} key={data._id}/>)
+        {favourites.map((data) => {
+          return (<BlogCard data={data} key={data._id} isFavourite={true}/>)
 
         })}
         

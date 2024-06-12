@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./BlogCard.css";
 
-const BlogCard = ({ data }) => {
+const BlogCard = ({ data, isFavourite }) => {
   return (
     <div className="dark:text-black dark:bg-[#edede9] bg-white shadow-lg overflow-hidden rounded-xl min-w-[300px] sm:min-w-[100px] md:min-w-[210px] max-w-[300px] hover:scale-105 hover:transition-all hover:duration-300 hover:ease-in">
       <Link to={`/blog/${data._id}`}>
