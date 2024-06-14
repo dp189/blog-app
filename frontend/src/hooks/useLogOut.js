@@ -7,7 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL_USER;
 
 
 export const useLogOut =  () => {
-    const [isError, setIsError] = useState(null);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const  {dispatch} = useAuthContext();
 
@@ -26,7 +26,7 @@ export const useLogOut =  () => {
             "Authorization": `Bearer ${userData}`
           },
         }).catch( err => {
-            setIsError(err.message);
+            setError(err.error);
             setIsLoading(false);
         })
         
@@ -39,5 +39,5 @@ export const useLogOut =  () => {
             navigate('/')
         }
     }
-    return { logout, isLoading, isError };
+    return { logout, isLoading, error };
 }

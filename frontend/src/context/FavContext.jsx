@@ -11,7 +11,9 @@ export const favouriteReducer = (state, action) => {
             return [...state, action.payload];
 
         case 'REMOVE_FAVOURITE':
-            return state.filter(blog => blog._id !== action.payload._id)
+
+            
+            return state.filter(blog => blog._id !== action.payload)
 
 
         default:
@@ -28,6 +30,7 @@ export const FavouriteBlogProvider = ({children}) => {
 
     const [state, dispatch] = useReducer( favouriteReducer , []);
 
+    
     const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
@@ -41,6 +44,7 @@ export const FavouriteBlogProvider = ({children}) => {
                 
                 if(favBlogs.status === 200 && favBlogs.data){
                     dispatch({type: 'SET_FAVOURITE', payload: favBlogs.data});
+                    
                 }
                 
             } catch (error) {
@@ -50,7 +54,7 @@ export const FavouriteBlogProvider = ({children}) => {
           }
 
         fetchFavourites();
-      }, [state]);
+      }, []);
 
 
       const addFavourite = async (id, accessToken) => {
@@ -68,13 +72,14 @@ export const FavouriteBlogProvider = ({children}) => {
             const favBlog = await removeFavouriteBlogByUser(blogId, user.user.accessToken);
             if(favBlog.status == 200){
             dispatch({type: 'REMOVE_FAVOURITE', payload:blogId})}
+            
         }catch(error){
             console.error("Failed to remove favourite blog", error);
         }
         
       }
 
-    return <FavouriteContext.Provider value = {{favourites: state, addFavourite, removeFavourite}}>
+    return <FavouriteContext.Provider value = {{favourites: state, addFavourite, removeFavourite, dispatch}}>
         {children}
     </FavouriteContext.Provider>
 

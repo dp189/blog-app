@@ -29,7 +29,7 @@ const SignUp = () => {
 
   return (
     <div className="parent">
-    <div className="auth-container md:w-[380px] md:h-[490px]">
+    <div className="auth-container md:w-[380px] md:h-auto">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Sign Up</h2>
         <div className="input-group">
@@ -67,6 +67,7 @@ const SignUp = () => {
           Already have an account? <Link to="/login" class="link">Login</Link>
         </p>
       </form>
+      {error?<div className='border border-red-500 p-2 rounded-lg bg-[#ff483f16] text-center'>{error}</div>:<></>}
     </div>
     </div>
   );

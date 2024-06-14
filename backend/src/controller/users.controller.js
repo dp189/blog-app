@@ -5,9 +5,10 @@ import { Blog } from "../model/blogs.model.js";
 import jwt from "jsonwebtoken";
 import { options } from "../constants.js";
 import mongoose, { ObjectId, Types } from "mongoose";
+import logger from "../utils/logger.js";
 
 
-
+//Generate access tokens
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -22,14 +23,21 @@ const generateAccessAndRefreshToken = async (userId) => {
 
     return { accessToken, refreshToken };
   } catch (error) {
+
+    logger.error(error.message);
+    res.status(500).json({ error: "Something went wrong" });
     throw new ApiError(500, "Something went wrong");
   }
 };
+
+
 
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
   if ([username, email, password].some((field) => field?.trim() === "")) {
+
+    res.status(400).json({ error: "All fields are required."})
     throw new ApiError(400, "All fields are required.");
   }
 
@@ -38,6 +46,8 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (userPresent) {
+
+    res.status(400).json({ error: "User with email or username already exists."})
     throw new ApiError(400, "User with email or username already exists.");
   }
 
@@ -48,6 +58,8 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
+
+    res.status(500).json({ error: "Something went wrong when creating user."})
     throw new ApiError(500, "Something went wrong when creating user.");
   }
 
@@ -60,6 +72,9 @@ const registerUser = asyncHandler(async (req, res) => {
   );
 
   if (!createdUser) {
+
+    res.status(500).json({ error: "Something went wrong when creating user."})
+
     throw new ApiError(500, "Something went wrong when creating user.");
   }
 
@@ -80,11 +95,15 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 });
 
+
+
 const loginUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username && !email) {
-    throw new ApiError(400, "username or email is required.");
+
+    res.status(400).json({ error: "Username or Email is required."})
+    throw new ApiError(400, "Username or Email is required.");
   }
 
   const user = await User.findOne({
@@ -92,20 +111,23 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
+
+    res.status(404).json({ error: "User does not exists."});
+
     throw new ApiError(404, "User does not exists.");
   }
 
   const isPasswordValid = await user.isPasswordValid(password);
 
   if (!isPasswordValid) {
+
+    res.status(401).json({ error: "Invalid User credentials."});
     throw new ApiError(401, "Invalid User credentials.");
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
-
-  // console.log(accessToken, refreshToken);
 
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken -role -createdAt -updatedAt"
@@ -127,6 +149,8 @@ const loginUser = asyncHandler(async (req, res) => {
       message: "User logged in successfully.",
     });
 });
+
+
 
 const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
@@ -152,24 +176,32 @@ const logoutUser = asyncHandler(async (req, res) => {
     });
 });
 
+
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken = req.cookies?.refreshToken;
 
   if (!incomingRefreshToken) {
+    res.status(401).json({ error: "Invalid Token"})
     throw new ApiError(401, "Invalid token");
   }
 
   try {
-    const decodedToken = await jwt.verify(
+    const decodedToken = jwt.verify(
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
 
     const user = await User.findById(decodedToken._id);
 
-    if (!user) throw new ApiError(401, "Invalid refresh token.");
+    if (!user) { 
+
+      res.status(401).json({ error: "Invalid refresh token." });
+      throw new ApiError(401, "Invalid refresh token.");
+    }
 
     if (incomingRefreshToken != user?.refreshToken) {
+      res.status(401).json({ error: "Invalid refresh token." });
       throw new ApiError(401, "Refresh token is expired or used.");
     }
 
@@ -189,9 +221,13 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         },
       });
   } catch (error) {
+
+    res.status(401).json({ error: error?.message || "Invalid refresh token"})
     throw new ApiError(401, error?.message || "Invalid refresh token");
   }
 });
+
+
 
 const findAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find()
@@ -199,6 +235,8 @@ const findAllUsers = asyncHandler(async (req, res) => {
     .select("-createdAt -updatedAt");
 
   if (!users?.length) {
+
+    res.status(404).json({ error : "Users not found"});
     throw new ApiError(404, "Users not found");
   }
 
@@ -208,16 +246,25 @@ const findAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
+
+
 const addFavouriteBlog = asyncHandler(async (req, res) => {
   const { blogId } = req.body;
   const userId = req.user._id;
   
   const blog = await Blog.findById(blogId).select("-description");
   if (!blog) {
+
+    res.status(404).json({ error: "Blog not found"});
     throw new ApiError(404, "Blog not found");
   }
 
   const user = await User.findById(userId);
+
+  if(!user){
+    res.status(404).json({ error: "User not found"});
+    throw new ApiError(404, "User not found");
+  }
 
   if (!user.favourites.includes(blogId)) {
     user.favourites.push(new mongoose.Types.ObjectId(blogId));
@@ -232,12 +279,16 @@ const addFavouriteBlog = asyncHandler(async (req, res) => {
   });
 });
 
+
+
 const findFavourites = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const user = await User.findById(userId).select(
     "-password -refreshToken -role -createdAt -updatedAt"
   );
   if (!user) {
+
+    res.status(404).json({ error: "User not found"});
     throw new ApiError(404, "User not found");
   }
 
@@ -260,7 +311,7 @@ const findFavourites = asyncHandler(async (req, res) => {
       $project: {
         _id: 0,
 
-        
+        //Modifying the return response
         favouriteBlogs: {
           $map: {
             input: "$favouriteBlogs",
@@ -286,12 +337,15 @@ const findFavourites = asyncHandler(async (req, res) => {
     });
 });
 
+
+
 const removeFavouriteBlog = asyncHandler(async (req, res) =>{
   const { blogId } = req.body;
   const userId = req.user._id;
 
   const blog = await Blog.findById(blogId).select("-description");
   if (!blog) {
+    res.status(404).json({error: "Blog not found."});
     throw new ApiError(404, "Blog not found");
   }
 
@@ -309,8 +363,6 @@ const removeFavouriteBlog = asyncHandler(async (req, res) =>{
     message: "Blog removed from favourites.",
   });
 })
-
-
 
 
 export {

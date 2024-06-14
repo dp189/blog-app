@@ -10,7 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL_USER;
 export const useLogin =  () => {
 
     const navigate = useNavigate();
-    const [isError, setIsError] = useState(null);
+    const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const  {dispatch} = useAuthContext();
 
@@ -24,6 +24,7 @@ export const useLogin =  () => {
                   "Content-Type": "application/json",
               },
           });
+          console.log(response);
           const user = response.data;
   
           if (user) {
@@ -34,9 +35,12 @@ export const useLogin =  () => {
               navigate('/favourites');
           }
       } catch (err) {
-          setIsError(err.message);
-          setIsLoading(false);
+        if(!err.response.data){
+          setError(err.message);
+        }
+        setError(err.response?.data?.error);
+        setIsLoading(false); 
       }
   };
-    return { login, isLoading, isError };
+    return { login, isLoading, error };
 } 

@@ -5,15 +5,18 @@ import { Blog } from "../model/blogs.model.js";
 import { Types } from "mongoose"
 
 
-
 const isValidObjectId = (id) => {
   return Types.ObjectId.isValid(id);
 };
 
+
+
 //controller configuration
 const createBlog = asyncHandler(async (req, res) => {
   const { title, category, description } = req.body;
-  console.log(req.files);
+
+  logger.debug(req.files)
+  
 
   if (
     [title, category, description].some((field) => field?.trim() === "")
@@ -41,7 +44,7 @@ const createBlog = asyncHandler(async (req, res) => {
   });
 
   const createdBlog = await Blog.findById(blog._id)
-  console.log(createBlog);
+  logger.debug(createBlog);
 
   if(!createBlog){
     throw new ApiError(500, "Something went wrong while creating blog");
@@ -56,14 +59,12 @@ const createBlog = asyncHandler(async (req, res) => {
 
 
 
+//find all posts
 const findAllBlogs = asyncHandler ( async (req,res) => {
   
-  
-
   const blogs = await Blog.find().sort({createdAt : -1}).select(
     "-description")
   
-
   if(!blogs){
     throw new ApiError(400, "No blogs found")
   }
@@ -75,11 +76,11 @@ const findAllBlogs = asyncHandler ( async (req,res) => {
 })
 
 
+
+//find all blogs based on category
 const findAllBlogsByCategory = asyncHandler ( async (req,res) => {
 
   const {category} = req.params;
-  
-
   const blogs = await Blog.find({ category : category}).sort({createdAt : -1})
 
   if(!blogs){
@@ -90,11 +91,9 @@ const findAllBlogsByCategory = asyncHandler ( async (req,res) => {
     status: "200 OK",
     data : blogs  })
 
-
 })
 
 //find blog by id
-
 const findBlogsById = asyncHandler ( async (req,res) => {
 
   const { blogId } = req.params;
@@ -140,10 +139,10 @@ const deleteBlogById = asyncHandler ( async (req, res) => {
 })
 
 
+
+
 //update blog by id
 const updateBlogById = asyncHandler ( async (req,res) => {
-
-  
 
   const { blogId } = req.params;
   

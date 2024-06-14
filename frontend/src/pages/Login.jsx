@@ -8,6 +8,7 @@ const Login = () => {
 
   const {login,isLoading, error} = useLogin();
 
+
   const handleSubmit = async (e) => {
     try{
     e.preventDefault();
@@ -24,7 +25,7 @@ const Login = () => {
   return (
 
     <div className="parent">
-    <div className="auth-container md:w-[380px] md:h-[400px]">
+    <div className="auth-container md:w-[380px] md:h-auto">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="input-group">
@@ -52,6 +53,8 @@ const Login = () => {
           Don't have an account? <Link to="/signup" className="link">Sign Up</Link>
         </p>
       </form>
+
+      {error?<div className='border border-red-500 p-2 rounded-lg bg-[#ff483f16] text-center'>{error}</div>:<></>}
     </div>
     </div>
   );

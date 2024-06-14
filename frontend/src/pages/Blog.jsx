@@ -7,6 +7,7 @@ import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 import {useFavouriteBlogContext} from "../hooks/useFavouriteBlogContext"; 
+import { useRemoveFavourite} from "../hooks/useRemoveFavourite";
 
 const Blog = () => {
   let { id } = useParams();
@@ -16,7 +17,9 @@ const Blog = () => {
 
   const {user} = useAuthContext();
 
-  const {favourites,addFavourite, removeFavourite} = useFavouriteBlogContext();
+  const {favourites,addFavourite} = useFavouriteBlogContext();
+
+  const { removeFavourite } = useRemoveFavourite();
 
 
   
@@ -44,7 +47,7 @@ const Blog = () => {
   useEffect(() => {
     function checkFavourited(){
       if(user && favourites.some(fav => fav._id === id)){
-        console.log("Called from useEffect. Is Favourited.");
+        
         setIsFavourited(true);
       }
       else{
@@ -63,7 +66,7 @@ const Blog = () => {
     try {
       setIsFavourited(prev =>!prev); 
       const favBlog = await addFavourite(id, user.user.accessToken);
-      console.log(favBlog);
+      
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +75,7 @@ const Blog = () => {
 
   const handleRemoveFavouriteBlog = () => {
     setIsFavourited(prev =>!prev);
-    removeFavourite(id);
+    removeFavourite(id, user.user.accessToken);
   }
 
 

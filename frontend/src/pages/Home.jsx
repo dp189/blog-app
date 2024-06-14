@@ -2,20 +2,21 @@ import React from 'react'
 import {BlogCard} from '../index.jsx'
 import { useEffect, useState } from 'react'
 import { getBlogs, getBlogsByCategory } from '../api/api.js'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom';
+import Loading from '../components/Loading/Loading.jsx'
 
 const Home = () => {
 
   let [searchParams, setSearchParams] = useSearchParams();
   
   const [blogs, setBlogs] = useState([]);
+  const [loading, setloading] = useState(false);
 
   
 
   useEffect(() => {
     async function fetchData(){
-      
-
+      setloading(true);
       if(searchParams.get('category') == null) {
         const allBlogs = await getBlogs();
         
@@ -25,6 +26,7 @@ const Home = () => {
         const allBlogs = await getBlogsByCategory(searchParams.get('category'));
         setBlogs(allBlogs.data)
       }
+      setloading(false);
     }
 
     fetchData();
@@ -47,6 +49,7 @@ const Home = () => {
         })}
         
       </div>
+      {loading? <Loading/> : <></>}
     </div>
   )
 }

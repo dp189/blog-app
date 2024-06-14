@@ -3,7 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from "./db/index.js";
 import cookieParser from "cookie-parser";
-
+import logger from './utils/logger.js';
+import morgan from 'morgan';
 
 dotenv.config({
     path:'./env'
@@ -12,9 +13,27 @@ dotenv.config({
 
 const app = express();
 
-// const port = 8080
+const morganFormat = ':method :url :status :response-time ms';
+
 
 //middleware
+//logger configuration
+app.use(morgan(morganFormat, {
+  stream: {
+    write: (message) => {
+      const logObject = {
+        method: message.split(' ')[0],
+        url: message.split(' ')[1],
+        status: message.split(' ')[2],
+        responseTime: message.split(' ')[3],
+
+      };
+      logger.info(JSON.stringify(logObject));
+    }
+  }
+}));
+
+
 app.use(cors({
     origin:process.env.CORS_ORIGIN,
     credentials:true
@@ -36,18 +55,20 @@ app.use(cookieParser());
 import blogRoutes from './routes/blogs.routes.js';
 import userRoutes from './routes/user.routes.js';
 
-
-app.use("/api/v1/blogs", blogRoutes); //route configuration
+//route configuration
+app.use("/api/v1/blogs", blogRoutes); 
 app.use("/api/v1/users", userRoutes);
 
 //db connection
 connectDB().then(() => {
     
     app.listen(process.env.PORT, ()=>{
-        console.log(`Server Started at port: ${process.env.PORT}`)
+
+        logger.info(`Server Started at port: ${process.env.PORT}`);
     })
 }).catch( err => {
-    console.log("MONGODB connection FAILED", err);
+    logger.error("MONGODB connection FAILED", err);
+    
 });
 
 app.get('/', (req,res) => {

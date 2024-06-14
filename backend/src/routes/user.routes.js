@@ -16,6 +16,7 @@ router.route('/logout').post(authenticateJWT, logoutUser);
 router.route('/refreshAccessToken').post(refreshAccessToken);
 
 router.route('/favourites').post(authenticateJWT,addFavouriteBlog);
+
 router.route('/favourites').get(authenticateJWT,findFavourites);
 
 router.route('/removeFavourites').post(authenticateJWT,removeFavouriteBlog);
