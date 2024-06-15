@@ -33,18 +33,11 @@ app.use(morgan(morganFormat, {
   }
 }));
 
-const allowedOrigins = process.env.CORS_ORIGINS.split(',');
+
 
 app.use(cors({
-    origin:(origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin:process.env.CORS_ORIGINS,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials:true
 }));
 
 app.options('*', cors());
