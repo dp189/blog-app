@@ -59,7 +59,7 @@ const addFavouriteBlogsToUser = (blogId, userData) => {
   console.log(API_URL + "/users/favourites");
   return axios
     .post(
-      API_URL_USER + "/users/favourites",
+      API_URL + "/users/favourites",
       {
         blogId: blogId,
       },
