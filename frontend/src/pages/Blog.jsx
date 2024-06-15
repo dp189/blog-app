@@ -64,9 +64,10 @@ const Blog = () => {
 
   const handleFavouriteBlog = async () => {
     try {
+      if(user){
       setIsFavourited(prev =>!prev); 
       const favBlog = await addFavourite(id, user.user.accessToken);
-      
+      }
     } catch (error) {
       console.error(error);
     }
@@ -87,7 +88,7 @@ const Blog = () => {
           <h1 className="mt-1 text-2xl sm:text-3xl lg:text-4xl font-extrabold inline-block w-[70%]">
             {blog.title}
           </h1>
-          {!isFavourited && <BsBookmarkPlus className="text-2xl text-end mt-3 md:mt-5 cursor-pointer" onClick={handleFavouriteBlog}/>}
+          {!isFavourited && <BsBookmarkPlus className="text-2xl text-end mt-3 md:mt-5 cursor-pointer" onClick={handleFavouriteBlog} />}
           {isFavourited && <BsFillBookmarkCheckFill className="text-2xl text-end mt-3 md:mt-5 cursor-pointer text-[#9b2226] dark:text-[#edede9]" onClick={handleRemoveFavouriteBlog}/>}
           </div>
           <div className="flex mt-2 sm:mt-4 mb-2 sm:mb-4 dark:text-[#eae4e4]">

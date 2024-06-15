@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL_BLOG;
-const API_URL_USER = import.meta.env.VITE_API_URL_BLOG;
+
 
 const getBlogs = () => {
 
-  console.log(API_URL + "/blogs");
+  
   return axios
     .get(API_URL + "/blogs")
     .then(function (response) {

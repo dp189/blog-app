@@ -63,6 +63,7 @@ const Header = () => {
     { text: "Travel", path: "/" },
     { text: "Technology", path: "/" },
     { text: "Finance", path: "/" },
+    { text: "Health", path:"/"}
   ];
 
   return (

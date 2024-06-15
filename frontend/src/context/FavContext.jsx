@@ -67,19 +67,9 @@ export const FavouriteBlogProvider = ({children}) => {
         }
       }
 
-      const removeFavourite = async (blogId) => {
-        try{
-            const favBlog = await removeFavouriteBlogByUser(blogId, user.user.accessToken);
-            if(favBlog.status == 200){
-            dispatch({type: 'REMOVE_FAVOURITE', payload:blogId})}
-            
-        }catch(error){
-            console.error("Failed to remove favourite blog", error);
-        }
-        
-      }
+    
 
-    return <FavouriteContext.Provider value = {{favourites: state, addFavourite, removeFavourite, dispatch}}>
+    return <FavouriteContext.Provider value = {{favourites: state, addFavourite, dispatch}}>
         {children}
     </FavouriteContext.Provider>
 

@@ -24,7 +24,7 @@ export const useLogin =  () => {
                   "Content-Type": "application/json",
               },
           });
-          console.log(response);
+          
           const user = response.data;
   
           if (user) {

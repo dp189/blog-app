@@ -14,6 +14,8 @@ const CreateBlog = () => {
     { text: "Travel" },
     { text: "Technology" },
     { text: "Finance" },
+    { text: "Health"},
+    { text: "Business"}
   ];
 
   const blankBlog = {
