@@ -4,6 +4,8 @@ const API_URL = import.meta.env.VITE_API_URL_BLOG;
 const API_URL_USER = import.meta.env.VITE_API_URL_BLOG;
 
 const getBlogs = () => {
+
+  console.log(API_URL + "/blogs");
   return axios
     .get(API_URL + "/blogs")
     .then(function (response) {
@@ -53,6 +55,7 @@ const getBlogById = (id) => {
 };
 
 const addFavouriteBlogsToUser = (blogId, userData) => {
+  console.log(API_URL_USER + "/users/favourites");
   return axios
     .post(
       API_URL_USER + "/users/favourites",
