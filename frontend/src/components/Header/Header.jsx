@@ -70,15 +70,15 @@ const Header = () => {
     <div className="border-b border-[#777070bf] dark:border-gray-700 bg-[#EAEADE] dark:shadow-[0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06)]">
       <div className="flex justify-between items-center px-4 py-4 dark:bg-zinc-900 bg-[#EAEADE]">
         <div className="px-2 md:px-5">
-          <Link to={"/"} className="flex items-center ">
+          <Link to={"/"} className="flex items-center " title="Home">
             <span className="font-extrabold text-2xl dark:text-white">
               BLO<span className="text-[#4E7771]">GG</span>ER
             </span>
           </Link>
         </div>
         <div className="flex gap-5">
-          <Link to={"/favourites"}> <BsBookmarkStarFill className="text-xl mt-[14px] hover:text-[#1b263b] dark:hover:text-[#edf2f4] cursor-pointer" /> </Link>
-          <div className="hover:bg-[#70707471] mt-2 rounded-md h-8 w-8 flex justify-center items-center">
+          <Link to={"/favourites"}> <BsBookmarkStarFill title="Favourites" className="text-xl mt-[14px] hover:text-[#1b263b] dark:hover:text-[#edf2f4] cursor-pointer" /> </Link>
+          <div title="Toggle Dark Mode" className="hover:bg-[#70707471] mt-2 rounded-md h-8 w-8 flex justify-center items-center">
             <button onClick={toggleDarkMode} className="px-1">
               {theme === "dark" ? (
                 <LuSun className="w-6 h-6 text-yellow-500" />

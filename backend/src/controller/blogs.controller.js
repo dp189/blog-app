@@ -2,7 +2,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { uploadFile } from "../utils/fileUpload.js";
 import { Blog } from "../model/blogs.model.js";
-import { Types } from "mongoose"
+import { Types } from "mongoose";
+import logger from "../utils/logger.js";
 
 
 const isValidObjectId = (id) => {
