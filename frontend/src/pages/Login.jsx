@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLogin } from '../hooks/useLogin';
+import Loading from '../components/Loading/Loading';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -53,7 +54,7 @@ const Login = () => {
           Don't have an account? <Link to="/signup" className="link">Sign Up</Link>
         </p>
       </form>
-
+      {isLoading ? <Loading /> : <></>}
       {error?<div className='border border-red-500 p-2 rounded-lg bg-[#ff483f16] text-center'>{error}</div>:<></>}
     </div>
     </div>

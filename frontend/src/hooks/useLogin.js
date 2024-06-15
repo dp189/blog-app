@@ -35,10 +35,8 @@ export const useLogin =  () => {
               navigate('/favourites');
           }
       } catch (err) {
-        if(!err.response.data){
-          setError(err.message);
-        }
-        setError(err.response?.data?.error);
+        
+        setError(err.response?.data?.error || err.message);
         setIsLoading(false); 
       }
   };

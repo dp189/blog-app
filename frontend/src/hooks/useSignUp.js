@@ -29,9 +29,7 @@ export const useSignUp = () => {
                 navigate('/favourites');
             }
         } catch (err) {
-            if(!err.response){
-                setError(err.message);
-              }
+            
               setError(err.response?.data?.error || err.message);
               setLoading(false); 
         }
