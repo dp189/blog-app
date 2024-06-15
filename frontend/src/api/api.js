@@ -3,6 +3,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL_BLOG;
 
 
+
 const getBlogs = () => {
 
   
@@ -55,7 +56,7 @@ const getBlogById = (id) => {
 };
 
 const addFavouriteBlogsToUser = (blogId, userData) => {
-  console.log(API_URL_USER + "/users/favourites");
+  console.log(API_URL + "/users/favourites");
   return axios
     .post(
       API_URL_USER + "/users/favourites",
@@ -79,7 +80,7 @@ const addFavouriteBlogsToUser = (blogId, userData) => {
 
 const getFavouriteBlogsByUser = (userData) => {
   return axios
-    .get(API_URL_USER + "/users/favourites", {
+    .get(API_URL + "/users/favourites", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userData}`,
@@ -96,7 +97,7 @@ const getFavouriteBlogsByUser = (userData) => {
 const removeFavouriteBlogByUser = (blogId, userData) => {
   return axios
     .post(
-      API_URL_USER + "/users/removeFavourites",
+      API_URL+ "/users/removeFavourites",
       {
         blogId: blogId,
       },
