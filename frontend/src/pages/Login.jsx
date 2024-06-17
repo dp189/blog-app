@@ -24,9 +24,12 @@ const Login = () => {
   };
 
   return (
+    <>
 
     <div className="parent">
+    
     <div className="auth-container md:w-[380px] md:h-auto">
+    
       <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className="input-group">
@@ -49,15 +52,18 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" className="btn bg-[#007bff] hover:bg[#0069d9]">Login</button>
+        <button type="submit" className="btn bg-[#007bff] hover:bg[#0069d9]">{!isLoading ? `Login`:<div className='flex justify-center items-center'><Loading /> </div>}</button>
         <p className='para'>
           Don't have an account? <Link to="/signup" className="link">Sign Up</Link>
         </p>
       </form>
-      {isLoading ? <Loading /> : <></>}
+      
       {error?<div className='border border-red-500 p-2 rounded-lg bg-[#ff483f16] text-center'>{error}</div>:<></>}
     </div>
+    
     </div>
+    
+    </>
   );
 };
 
