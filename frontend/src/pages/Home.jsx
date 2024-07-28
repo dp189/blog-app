@@ -12,7 +12,7 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setloading] = useState(false);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     setloading(true);
       if(searchParams.get('category') == null) {
         const allBlogs = await getBlogs();
@@ -24,7 +24,7 @@ const Home = () => {
         setBlogs(allBlogs.data)
       }
       setloading(false);
-  },[])
+  }
     
   
 
