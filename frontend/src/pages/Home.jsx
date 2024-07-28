@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import {BlogCard} from '../index.jsx'
 import { useEffect, useState } from 'react'
 import { getBlogs, getBlogsByCategory } from '../api/api.js'
@@ -12,11 +12,8 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setloading] = useState(false);
 
-  
-
-  useEffect(() => {
-    async function fetchData(){
-      setloading(true);
+  const fetchData = useCallback(async () => {
+    setloading(true);
       if(searchParams.get('category') == null) {
         const allBlogs = await getBlogs();
         
@@ -27,8 +24,11 @@ const Home = () => {
         setBlogs(allBlogs.data)
       }
       setloading(false);
-    }
+  },[])
+    
+  
 
+  useEffect(() => {
     fetchData();
   },[searchParams])
   
@@ -39,6 +39,10 @@ const Home = () => {
   }
 
   return (
+    <>
+    <div className="mt-6 flex items-center justify-center">
+    {loading? <Loading /> : <></>}
+    </div>
     <div>
       
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10 dark:bg-zinc-900">
@@ -49,8 +53,10 @@ const Home = () => {
         })}
         
       </div>
-      {loading? <Loading/> : <></>}
+      
     </div>
+    
+    </>
   )
 }
 
